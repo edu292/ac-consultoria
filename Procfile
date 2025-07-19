@@ -1,0 +1,1 @@
+web: gunicorn ac_consultoria.wsgi
