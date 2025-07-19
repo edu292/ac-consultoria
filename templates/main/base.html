@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}?v=278">
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <div class="content-wrapper">
+    <nav>
+        <a href="{% url 'main:powerbi' %}">Power BI</a>
+        <a href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+{% block script %}
+{% endblock %}
+</html>
