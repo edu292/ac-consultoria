@@ -28,9 +28,9 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', True)
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['10.0.0.9'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'api.apps.ApiConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -56,10 +58,10 @@ MIDDLEWARE = [
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-USE_X_FORWARDED_HOST = env.bool('USE_X_FORWARDED_HOST', False)
-SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', False)
-SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', False)
-CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', False)
+USE_X_FORWARDED_HOST = env.bool('USE_X_FORWARDED_HOST')
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
 
 ROOT_URLCONF = 'ac_consultoria.urls'
 
