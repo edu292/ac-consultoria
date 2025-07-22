@@ -5,4 +5,4 @@ from .models import Geoloc
 class GeolocSerializer(serializers.ModelSerializer):
     class Meta:
         model = Geoloc
-        fields = ['id', 'date', 'latitude', 'longitude', 'type']
+        fields = ['date', 'latitude', 'longitude', 'type']
