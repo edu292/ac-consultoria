@@ -140,6 +140,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "OPTIONS": {
+                    "file_permissions_mode": 0o644,
+                    "directory_permissions_mode": 0o755,
+                },
     },
 }
 
