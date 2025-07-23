@@ -149,7 +149,6 @@ export default function initMap(L, HeatmapOverlay){
             if (newIndex === currentIndex) return;
             currentIndex = newIndex
             const dataIndex = (newIndex === totalIndex) ? 'all' : newIndex;
-            console.log(dataIndex)
             const [markers, heatmapArray] = await Promise.all([
                 markersByMonth.asMarkers(dataIndex),
                 markersByMonth.asHeatmapArray(dataIndex)

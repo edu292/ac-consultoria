@@ -1,10 +1,15 @@
 import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 delete L.Icon.Default.prototype._getIconUrl;
+
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: '/static/main/build/marker-icon-2x.png',
-  iconUrl: '/static/main/build/marker-icon.png',
-  shadowUrl: '/static/main/build/marker-shadow.png',
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
 });
+
 import 'leaflet.markercluster';
 import 'iso8601-js-period';
 import 'leaflet-timedimension';
