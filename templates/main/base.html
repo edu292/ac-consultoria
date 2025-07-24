@@ -5,18 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     {% block head %}
     {% endblock %}
 </head>
 <body>
-    <div class="content-wrapper">
+    <div class="body-wrapper">
     <nav>
-        <a href="{% url 'main:powerbi' %}">Power BI</a>
-        <a href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
+        <a hx-get="{% url 'main:powerbi' %}"
+           hx-target="#content"
+           hx-push-url="true" href="#">Power BI</a>
+        <a hx-get="{% url 'main:mapa_calor' %}"
+           hx-target="#content"
+           hx-push-url="true"
+           hx-trigger="" href="#">Mapa de Calor</a>
     </nav>
-    {% block content %}
-    {% endblock %}
+    <main id="content">
+        {% block content %}
+        {% endblock %}
+    </main>
     </div>
 </body>
 </html>

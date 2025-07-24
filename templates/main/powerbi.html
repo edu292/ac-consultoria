@@ -1,12 +1,21 @@
 {% extends 'main/base.html' %}
+{% load partials %}
+
 {% block title %}Power BI{% endblock %}
 
 {% block content %}
-    <div class="iframe-wrapper">
-        <iframe class="powerbi-iframe"
-                sandbox="allow-same-origin allow-scripts"
-                referrerpolicy="no-referrer"
-                src="https://app.powerbi.com/view?r=eyJrIjoiZGNjMzRmZGUtMGZlZi00YTQyLWIxNDMtMjZhYzI3ODY0ZDI3IiwidCI6ImUzMDI1YzcyLTcwYjQtNDUzNC1iNGQwLTFkYWRlMjU2ZGQyNiJ9">
-        </iframe>
-    </div>
+    {% partial content %}
 {% endblock %}
+
+{% partialdef content %}
+    <iframe class="powerbi-iframe"
+            sandbox="allow-same-origin allow-scripts"
+            referrerpolicy="no-referrer"
+            src="https://app.powerbi.com/view?r=eyJrIjoiZGNjMzRmZGUtMGZlZi00YTQyLWIxNDMtMjZhYzI3ODY0ZDI3IiwidCI6ImUzMDI1YzcyLTcwYjQtNDUzNC1iNGQwLTFkYWRlMjU2ZGQyNiJ9">
+    </iframe>
+{% endpartialdef content %}
+
+{% partialdef htmx %}
+    <title hx-swap-oob="true">Power BI</title>
+    {% partial content %}
+{% endpartialdef %}

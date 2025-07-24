@@ -20,11 +20,15 @@ html, body {
  * Main Layout (CSS Grid)
  * =========================================
  */
-.content-wrapper {
+.body-wrapper {
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;
     overflow: hidden;
+}
+
+.content-main {
+
 }
 
 /*
@@ -79,12 +83,6 @@ nav a:hover {
     width: 100%;
     height: 100%;
     border: none;
-}
-
-/* Folium's generated map div */
-#map_fe1598707547cf9b766c399a91a71a4f {
-    height: 100%;
-    width: 100%;
 }
 
 .page-wrapper {
