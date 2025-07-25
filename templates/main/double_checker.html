@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+{% load partials %}
+
+{% block title %}Double Checker{% endblock %}
+
+{% block content %}
+{% partial content %}
+{% endblock %}
+
+{% partialdef content %}
+<div class="search-page-container">
+    <header class="search-header">
+        <div class="search-form">
+            <div class="form-field">
+                <label for="name-search">Nome</label>
+                <input type="text" id="name-search" name="nome" placeholder="Digite o nome..."
+                       class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
+                       hx-trigger="keyup[key=='Enter']">
+            </div>
+
+            <div class="form-field">
+                <label for="id-search">RG / CPF</label>
+                <input type="text" id="id-search" name="numero_documento" placeholder="Digite o RG ou CPF..."
+                       class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
+                       hx-trigger="keyup[key=='Enter']">
+            </div>
+
+            <div class="form-field">
+                <label for="plate-search">Placa do Veículo</label>
+                <input type="text" id="plate-search" name="placa" placeholder="Digite a placa..."
+                       class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
+                       hx-trigger="keyup[key=='Enter']">
+            </div>
+        </div>
+    </header>
+
+    <div class="results-wrapper">
+    </div>
+</div>
+<script>
+document.body.addEventListener('htmx:beforeRequest', function(event) {
+        const triggeringElement = event.detail.elt;
+        if (!triggeringElement.classList.contains('search-input')) {
+            return;
+        }
+
+        const allSearchInputs = document.querySelectorAll('.search-input');
+
+        allSearchInputs.forEach(input => {
+            if (input !== triggeringElement) {
+                input.value = '';
+            }
+        });
+    });
+</script>
+{% endpartialdef %}
+
+{% partialdef results %}
+    {% if prisoes %}
+        <div class="results-grid">
+            {% for prisao in prisoes %}
+                <div class="result-card">
+                    <header class="card-header">
+                        <h3>{{ prisao.nome }}</h3>
+                        <span class="status-badge status-active">Ativo</span>
+                    </header>
+                    <div class="card-body">
+                        <p><strong>Placa:</strong> {{ prisao.placa|default:"Não informado" }}</p>
+                        <p><strong>Cidade:</strong> {{ prisao.cidade }}</p>
+                        <p><strong>Data:</strong> {{ prisao.data|date:"d/m/y" }}</p>
+                        <p><strong>Nº BO:</strong> {{ prisao.numero_bo|default:"Não informado" }}</p>
+                        <p><strong>RG/CPF:</strong> {{ prisao.numero_documento|default:"Não informado" }}</p>
+                        <p><strong>Delito:</strong> {{ prisao.delito }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-results-message">
+            <div class="no-results-icon">🔎</div>
+            <h2>Nenhum resultado encontrado</h2>
+            <p>Tente ajustar seus termos de pesquisa ou usar filtros diferentes.</p>
+        </div>
+    {% endif %}
+{% endpartialdef %}
+
+{% partialdef htmx %}
+<title hx-swap-oob="true">Double Search</title>
+{% partial content %}
+{% endpartialdef %}

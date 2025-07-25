@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Prisoes
 
-# Register your models here.
+admin.site.register(Prisoes)
+
