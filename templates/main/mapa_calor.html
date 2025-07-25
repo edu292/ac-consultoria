@@ -1,12 +1,11 @@
 {% extends 'main/base.html' %}
-{% load static %}
-
+{% block title %}Mapa Calor{% endblock %}
 {% block head %}
-    <link rel="stylesheet"
-          href="{% static 'main/build/app.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/build/app.css' %}">
     <script src="{% static 'main/build/app.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
-    <div id="map"></div>
+    <div id="map" class="map"></div>
 {% endblock %}

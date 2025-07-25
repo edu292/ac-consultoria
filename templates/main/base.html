@@ -1,11 +1,13 @@
 {% load static %}
+{% load django_htmx %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}?v27">
+    {% htmx_script %}
     {% block head %}
     {% endblock %}
 </head>
@@ -15,10 +17,10 @@
         <a hx-get="{% url 'main:powerbi' %}"
            hx-target="#content"
            hx-push-url="true" href="#">Power BI</a>
-        <a hx-get="{% url 'main:mapa_calor' %}"
+        <a href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
+        <a hx-get="{% url 'main:double_checker' %}"
            hx-target="#content"
-           hx-push-url="true"
-           hx-trigger="" href="#">Mapa de Calor</a>
+           hx-push-url="true" href="#">Double Checker</a>
     </nav>
     <main id="content">
         {% block content %}
