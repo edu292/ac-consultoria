@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <div class="form-container">
+        <div class="card card--login">
             <h1>Entrar na sua Conta</h1>
 
             <form method="post">
@@ -23,7 +23,7 @@
                 {% endif %}
 
                 {% for field in form %}
-                    <div class="form-field">
+                    <div class="form-group">
                         {{ field.label_tag }}
                         {{ field }}
                         {% if field.help_text %}

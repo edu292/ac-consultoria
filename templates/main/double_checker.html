@@ -11,22 +11,22 @@
 <div class="search-page-container">
     <header class="search-header">
         <div class="search-form">
-            <div class="form-field">
-                <label for="name-search">Nome</label>
+            <div class="form-group">
+                <label for="name-search" class="form-label">Nome</label>
                 <input type="text" id="name-search" name="nome" placeholder="Digite o nome..."
                        class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
                        hx-trigger="keyup[key=='Enter']">
             </div>
 
-            <div class="form-field">
-                <label for="id-search">RG / CPF</label>
+            <div class="form-group">
+                <label for="id-search" class="form-label">RG / CPF</label>
                 <input type="text" id="id-search" name="numero_documento" placeholder="Digite o RG ou CPF..."
                        class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
                        hx-trigger="keyup[key=='Enter']">
             </div>
 
-            <div class="form-field">
-                <label for="plate-search">Placa do Veículo</label>
+            <div class="form-group">
+                <label for="plate-search" class="form-label">Placa do Veículo</label>
                 <input type="text" id="plate-search" name="placa" placeholder="Digite a placa..."
                        class="search-input" hx-get="{% url 'main:double_checker' %}" hx-target=".results-wrapper"
                        hx-trigger="keyup[key=='Enter']">
@@ -35,6 +35,11 @@
     </header>
 
     <div class="results-wrapper">
+        <div class="no-results-message">
+            <div class="no-results-icon">🔎</div>
+            <h2>Digite sua pesquisa na aba ao lado</h2>
+            <p>Se precisar de mais informações contate o administrador do site.</p>
+        </div>
     </div>
 </div>
 <script>
@@ -59,12 +64,13 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
     {% if prisoes %}
         <div class="results-grid">
             {% for prisao in prisoes %}
-                <div class="result-card">
-                    <header class="card-header">
+                <div class="card">
+                    <header class="card__header">
                         <h3>{{ prisao.nome }}</h3>
-                        <span class="status-badge status-active">Ativo</span>
+                        <span class="badge badge--{{ prisao.estrutura_criminal }}">
+                            {{ prisao.estrutura_criminal }}</span>
                     </header>
-                    <div class="card-body">
+                    <div class="card__body">
                         <p><strong>Placa:</strong> {{ prisao.placa|default:"Não informado" }}</p>
                         <p><strong>Cidade:</strong> {{ prisao.cidade }}</p>
                         <p><strong>Data:</strong> {{ prisao.data|date:"d/m/y" }}</p>
