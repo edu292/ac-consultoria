@@ -67,7 +67,7 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
                 <div class="card">
                     <header class="card__header">
                         <h3>{{ prisao.nome }}</h3>
-                        <span class="badge badge--{{ prisao.estrutura_criminal }}">
+                        <span class="badge badge--{{ prisao.estrutura_criminal|slugify }}">
                             {{ prisao.estrutura_criminal }}</span>
                     </header>
                     <div class="card__body">
@@ -91,6 +91,6 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
 {% endpartialdef %}
 
 {% partialdef htmx %}
-<title hx-swap-oob="true">Double Search</title>
+<title hx-swap-oob="true">Double Checker</title>
 {% partial content %}
 {% endpartialdef %}
