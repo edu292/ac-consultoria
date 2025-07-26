@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
-    'api.apps.ApiConfig',
     'rest_framework',
     'django_htmx',
-    'template_partials'
+    'template_partials',
+    'import_export',
+    'django.contrib.postgres',
+    'main.apps.MainConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
