@@ -61,22 +61,22 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
 {% endpartialdef %}
 
 {% partialdef results %}
-    {% if prisoes %}
+    {% if ocorrencias %}
         <div class="results-grid">
-            {% for prisao in prisoes %}
+            {% for ocorrencia in ocorrencias %}
                 <div class="card">
                     <header class="card__header">
-                        <h3>{{ prisao.nome }}</h3>
-                        <span class="badge badge--{{ prisao.estrutura_criminal|slugify }}">
-                            {{ prisao.estrutura_criminal }}</span>
+                        <h3>{{ ocorrencia.nome|title }}</h3>
+                        <span class="badge badge--{{ ocorrencia.estrutura_criminal|slugify }}">
+                            {{ ocorrencia.get_estrutura_criminal_display }}</span>
                     </header>
                     <div class="card__body">
-                        <p><strong>Placa:</strong> {{ prisao.placa|default:"Não informado" }}</p>
-                        <p><strong>Cidade:</strong> {{ prisao.cidade }}</p>
-                        <p><strong>Data:</strong> {{ prisao.data|date:"d/m/y" }}</p>
-                        <p><strong>Nº BO:</strong> {{ prisao.numero_bo|default:"Não informado" }}</p>
-                        <p><strong>RG/CPF:</strong> {{ prisao.numero_documento|default:"Não informado" }}</p>
-                        <p><strong>Delito:</strong> {{ prisao.delito }}</p>
+                        <p><strong>Placa:</strong> {{ ocorrencia.placa|default:"Não Informado" }}</p>
+                        <p><strong>Cidade:</strong> {{ ocorrencia.cidade }}</p>
+                        <p><strong>Data:</strong> {{ ocorrencia.data|date:"d/m/y" }}</p>
+                        <p><strong>Nº BO:</strong> {{ ocorrencia.numero_bo|default:"Não Informado" }}</p>
+                        <p><strong>RG/CPF:</strong> {{ ocorrencia.numero_documento|default:"Não Informado" }}</p>
+                        <p><strong>Delito:</strong> {{ ocorrencia.delito|default:"Não Informado" }}</p>
                     </div>
                 </div>
             {% endfor %}

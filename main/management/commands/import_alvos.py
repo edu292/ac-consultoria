@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
-from main.models import Prisoes
+from main.models import Ocorrencia
 
 
 class Command(BaseCommand):
@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
                 date_object = datetime.fromisoformat(datetime_string).date()
                 locations_to_create.append(
-                    Prisoes(
+                    Ocorrencia(
                         nome=row['nome'],
                         numero_documento=row['id'],
                         numero_bo=row['bo'],
@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 )
 
             if locations_to_create:
-                Prisoes.objects.bulk_create(locations_to_create)
+                Ocorrencia.objects.bulk_create(locations_to_create)
                 self.stdout.write(self.style.SUCCESS(f'Successfully imported {len(locations_to_create)} locations.'))
             else:
                 self.stdout.write(self.style.WARNING('No locations found to import.'))
