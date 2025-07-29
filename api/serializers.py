@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
-from .models import Geoloc
+from main.models import FurtoEquipamento
 
-class GeolocSerializer(serializers.ModelSerializer):
+class FurtoEquipamentoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Geoloc
-        fields = ['date', 'latitude', 'longitude', 'type']
+        model = FurtoEquipamento
+        fields = ['data_ocorrencia', 'latitude', 'longitude', 'tipo_de_equipamento']

@@ -53,7 +53,7 @@ export default function initMap(L, HeatmapOverlay){
                 return L.marker([point.latitude, point.longitude])
                     .bindPopup(
                         L.popup()
-                            .setContent('Data: '+point.date+'<br>'+'Tipo de Equipamento: '+point.type)
+                            .setContent('Data: '+point.data_ocorrencia+'<br>'+'Tipo de Equipamento: '+point.tipo_de_equipamento)
                     )
                     .bindTooltip(tooltip)
             });
@@ -102,8 +102,8 @@ export default function initMap(L, HeatmapOverlay){
     }
 
     async function initializeTimeLabels() {
-        const response = await fetch('api/latest-month')
-        const data = await response.json()
+        const response = await fetch('api/furtos/latest-month');
+        const data = await response.json();
         const latestMonth = data.latest_month
 
         let timeLabels = generateMonthLabels(latestMonth)
@@ -201,7 +201,7 @@ export default function initMap(L, HeatmapOverlay){
     const cluster = L.markerClusterGroup().addTo(map);
 
     const tooltip = new L.Tooltip().setContent('Clique para ver mais informações');
-    const baseURL = 'api/geoloc/?month='
+    const baseURL = 'api/furtos/?month='
 
     main(map);
 }
