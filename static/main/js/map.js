@@ -17,7 +17,7 @@ export default function initMap(L, HeatmapOverlay){
 
     class LazyLocationData {
         constructor(length) {
-            this.length = length-1
+            this.length = length
             this._rawCache = new Map();
             this._transformedCache = new Map();
             this.ALL_DATA_KEY = 'all'

@@ -1,12 +1,16 @@
 from django.contrib import admin
-from .models import Ocorrencia
+from .models import Ocorrencia, FurtoEquipamento
 from import_export.admin import ImportExportModelAdmin
 from .resources import OcorrenciaResource
 
 @admin.register(Ocorrencia)
-class BookAdmin(ImportExportModelAdmin):
+class OcorrenciaAdmin(ImportExportModelAdmin):
     resource_class = OcorrenciaResource
     list_display = [field.name for field in Ocorrencia._meta.fields if not field.primary_key]
-    list_editable = [field.name for field in Ocorrencia._meta.fields if not field.primary_key]
-    list_display_links = None
+    list_filter = ['estrutura_criminal']
     search_fields = ['nome', 'placa', 'numero_documento']
+
+@admin.register(FurtoEquipamento)
+class ModelNameAdmin(admin.ModelAdmin):
+    list_filter = ['status', 'data_registro']
+    ordering = ['-data_ocorrencia']

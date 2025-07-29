@@ -48,3 +48,10 @@ class FurtoEquipamento(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     data_registro = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Furto de Equipamento'
+        verbose_name_plural = 'Furtos de Equipamento'
+
+    def __str__(self):
+        return f"{self.tipo_de_equipamento} em {self.cidade}/{self.uf} - {self.get_status_display()}"
