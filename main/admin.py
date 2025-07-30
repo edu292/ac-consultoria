@@ -12,5 +12,5 @@ class OcorrenciaAdmin(ImportExportModelAdmin):
 
 @admin.register(FurtoEquipamento)
 class ModelNameAdmin(admin.ModelAdmin):
-    list_filter = ['status', 'data_registro']
+    list_filter = ['status', 'data_registro', 'tipo_de_equipamento']
     ordering = ['-data_ocorrencia']

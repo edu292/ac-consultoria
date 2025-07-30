@@ -1,0 +1,45 @@
+{% load static %}
+{% load django_htmx %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre os Dados - GT Furto de Cabos</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}?v=5">
+    {% htmx_script %}
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <main class="landing-container">
+
+            <div class="logo">
+                <img src="{% static 'main/img/logo.jpeg' %}" alt="Logo">
+            </div>
+
+            <h1>Sobre os Dados Apresentados</h1>
+
+            <div class="landing-text">
+                <p>
+                    Todos os dados utilizados nas análises do Power BI, no mapa de calor e no Double Checker foram fornecidos por empresas e instituições públicas que participam do Grupo de Trabalho (GT) de Furto de Cabos.
+                </p>
+                <p>
+                    As informações consolidadas no Power BI e no mapa de calor do Paraná têm como base registros de furtos e danos reportados nos sistemas de gestão das empresas colaboradoras.
+                </p>
+                <p>
+                    Este site foi criado com o objetivo de apoiar as análises e atender à demanda por uma base de dados compartilhada e segura entre todos os integrantes do GT de Furto de Cabos e os orgãos de segurança pública.
+                </p>
+            </div>
+
+            <nav hx-boost="">
+                <a href="{% url 'main:powerbi' %}">Power BI</a>
+                <a hx-boost="false" href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
+                <a href="{% url 'main:double_checker' %}">Double Checker</a>
+            </nav>
+
+        </main>
+    </div>
+
+</body>
+</html>

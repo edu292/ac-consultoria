@@ -16,7 +16,7 @@
   --color-text-emphasis: #f8f9fa;
   --color-text-light: #ffffff;
   --color-text-strong: #c0c0c0;
-  --color-accent: #dc3545;
+  --color-accent: #f82129;
   --color-accent-hover: #c82333;
   --color-error-text: #f5c6cb;
   --color-error-bg: rgba(220, 53, 69, 0.15);
@@ -369,4 +369,59 @@ nav a:hover {
 .no-results-message p {
   max-width: 400px;
   font-size: var(--font-size-base);
+}
+/* --- Landing Page --- */
+.landing-container {
+  background-color: var(--color-bg-secondary);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xxxl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 750px;
+  width: 100%;
+}
+
+.logo {
+  width: 160px; /* Adjust width as needed */
+  margin-bottom: var(--spacing-xl);
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the logo fits perfectly without being stretched or cropped */
+}
+
+.landing-container h1 {
+  color: var(--color-text-emphasis);
+  margin-bottom: var(--spacing-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.landing-text {
+  margin-bottom: var(--spacing-xl);
+}
+
+.landing-text p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1.7;
+  max-width: 65ch;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.landing-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Landing Page Navigation Overrides --- */
+.landing-container nav {
+  background-color: transparent;
+  box-shadow: none;
+  padding: var(--spacing-xl) 0 0 0;
 }

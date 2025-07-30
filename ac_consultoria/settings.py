@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.htmx_base_template'
             ],
         },
     },
@@ -155,3 +156,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'main:login'
 LOGIN_REDIRECT_URL = '/'
+
+BASE_TEMPLATE = 'main/_base.html'
+HTMX_BASE_TEMPLATE = 'main/_partial.html'

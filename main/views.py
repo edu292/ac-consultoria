@@ -4,24 +4,21 @@ from .models import Ocorrencia
 
 @login_required()
 def powerbi(request):
-    if request.htmx:
-        return render(request, 'main/powerbi.html#htmx')
     return render(request, 'main/powerbi.html')
 
 @login_required()
 def mapacalor(request):
     return render(request, 'main/mapa_calor.html')
 
+@login_required()
 def index(request):
-    return redirect(reverse('main:powerbi'))
+    return render(request, 'main/index.html')
 
 @login_required()
 def double_checker(request):
-    if request.htmx:
-        if request.headers.get('HX-Trigger'):
-            field = request.headers.get('HX-Trigger-Name')
-            search = {f'{field}__unaccent__icontains': request.GET.get(field)}
-            context = {'ocorrencias': Ocorrencia.objects.filter(**search)[:6]}
-            return render(request, 'main/double_checker.html#results', context)
-        return render(request, 'main/double_checker.html#htmx')
+    if request.headers.get('HX-Trigger'):
+        field = request.headers.get('HX-Trigger-Name')
+        search = {f'{field}__unaccent__icontains': request.GET.get(field)}
+        context = {'ocorrencias': Ocorrencia.objects.filter(**search)[:6]}
+        return render(request, 'main/double_checker.html#results', context)
     return render(request, 'main/double_checker.html')

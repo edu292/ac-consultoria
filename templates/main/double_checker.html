@@ -1,13 +1,9 @@
-{% extends 'main/base.html' %}
+{% extends base_template %}
 {% load partials %}
 
 {% block title %}Double Checker{% endblock %}
 
 {% block content %}
-{% partial content %}
-{% endblock %}
-
-{% partialdef content %}
 <div class="search-page-container">
     <header class="search-header">
         <div class="search-form">
@@ -58,7 +54,7 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
         });
     });
 </script>
-{% endpartialdef %}
+{% endblock %}
 
 {% partialdef results %}
     {% if ocorrencias %}
@@ -88,9 +84,4 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
             <p>Tente ajustar seus termos de pesquisa ou usar filtros diferentes.</p>
         </div>
     {% endif %}
-{% endpartialdef %}
-
-{% partialdef htmx %}
-<title hx-swap-oob="true">Double Checker</title>
-{% partial content %}
 {% endpartialdef %}
