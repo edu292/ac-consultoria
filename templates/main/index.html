@@ -5,18 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre os Dados - GT Furto de Cabos</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}?v=5">
+    <title>Sobre os Dados</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}">
     {% htmx_script %}
 </head>
 <body>
 
     <div class="page-wrapper">
         <main class="landing-container">
-
-            <div class="logo">
-                <img src="{% static 'main/img/logo.jpeg' %}" alt="Logo">
-            </div>
 
             <h1>Sobre os Dados Apresentados</h1>
 
@@ -32,9 +28,9 @@
                 </p>
             </div>
 
-            <nav hx-boost="">
+            <nav>
                 <a href="{% url 'main:powerbi' %}">Power BI</a>
-                <a hx-boost="false" href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
+                <a href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
                 <a href="{% url 'main:double_checker' %}">Double Checker</a>
             </nav>
 

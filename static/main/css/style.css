@@ -342,7 +342,7 @@ nav a:hover {
 }
 
 /* --- No Results Message --- */
-.no-results-message {
+.search-feedback {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -353,20 +353,20 @@ nav a:hover {
   color: var(--color-text-secondary);
 }
 
-.no-results-icon {
+.search-feedback-icon {
   font-size: 4rem;
   margin-bottom: var(--spacing-xl);
   line-height: 1;
 }
 
-.no-results-message h2 {
+.search-feedback h2 {
   font-size: var(--font-size-lg);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-md);
   font-weight: 300;
 }
 
-.no-results-message p {
+.search-feedback p {
   max-width: 400px;
   font-size: var(--font-size-base);
 }

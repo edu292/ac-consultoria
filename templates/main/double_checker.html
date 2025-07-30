@@ -31,8 +31,8 @@
     </header>
 
     <div class="results-wrapper">
-        <div class="no-results-message">
-            <div class="no-results-icon">🔎</div>
+        <div class="search-feedback">
+            <div class="search-feedback-icon">🔎</div>
             <h2>Digite sua pesquisa na aba ao lado</h2>
             <p>Se precisar de mais informações contate o administrador do site.</p>
         </div>
@@ -78,8 +78,8 @@ document.body.addEventListener('htmx:beforeRequest', function(event) {
             {% endfor %}
         </div>
     {% else %}
-        <div class="no-results-message">
-            <div class="no-results-icon">🔎</div>
+        <div class="search-feedback">
+            <div class="search-feedback-icon">📂</div>
             <h2>Nenhum resultado encontrado</h2>
             <p>Tente ajustar seus termos de pesquisa ou usar filtros diferentes.</p>
         </div>

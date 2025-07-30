@@ -16,7 +16,8 @@ def index(request):
 
 @login_required()
 def double_checker(request):
-    if request.headers.get('HX-Trigger'):
+    print(request.headers)
+    if request.htmx.trigger_name:
         field = request.headers.get('HX-Trigger-Name')
         search = {f'{field}__unaccent__icontains': request.GET.get(field)}
         context = {'ocorrencias': Ocorrencia.objects.filter(**search)[:6]}

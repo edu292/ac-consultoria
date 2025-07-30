@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'template_partials',
     'import_export',
     'django.contrib.postgres',
-    'main.apps.MainConfig',
-    'api.apps.ApiConfig',
+    'main',
+    'api',
 ]
 
 MIDDLEWARE = [
