@@ -29,6 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
+SESSION_EXPIRE_AT_BROWSER_CLOSE =  env.bool('SESSION_EXPIRE_AT_BROWSER_CLOSE')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
@@ -41,11 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'rest_framework',
     'django_htmx',
     'template_partials',
     'import_export',
-    'django.contrib.postgres',
+    'rangefilter',
     'main',
     'api',
 ]
@@ -63,11 +65,35 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware'
 ]
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-USE_X_FORWARDED_HOST = env.bool('USE_X_FORWARDED_HOST')
-SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
-SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
-CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
+HTTPS_ENABLED = env.bool('HTTPS_ENABLED')
+
+if HTTPS_ENABLED:
+    # --- PROXY AND SSL SETTINGS ---
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
+    # --- COOKIE SETTINGS ---
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # --- HSTS (HTTP Strict Transport Security) SETTINGS ---
+    SECURE_HSTS_SECONDS = 60
+
+    # --- OTHER SECURITY HEADERS ---
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+else:
+    # Settings for local development (HTTP)
+    USE_X_FORWARDED_HOST = False
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    SECURE_REFERRER_POLICY = None
 
 ROOT_URLCONF = 'ac_consultoria.urls'
 
