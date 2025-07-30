@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Ocorrencia, FurtoEquipamento
 from import_export.admin import ImportExportModelAdmin
-from .resources import OcorrenciaResource
+from .resources import OcorrenciaResource, FurtoEquipamentoResource
 
 @admin.register(Ocorrencia)
 class OcorrenciaAdmin(ImportExportModelAdmin):
@@ -11,6 +11,7 @@ class OcorrenciaAdmin(ImportExportModelAdmin):
     search_fields = ['nome', 'placa', 'numero_documento']
 
 @admin.register(FurtoEquipamento)
-class ModelNameAdmin(admin.ModelAdmin):
+class ModelNameAdmin(ImportExportModelAdmin):
+    resource_class = FurtoEquipamentoResource
     list_filter = ['status', 'data_registro', 'tipo_de_equipamento']
     ordering = ['-data_ocorrencia']
