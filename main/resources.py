@@ -1,6 +1,7 @@
 from import_export import resources, widgets
 from import_export.fields import Field
 from .models import Ocorrencia, FurtoEquipamento
+from . import tasks
 import re
 
 class EstruturaCriminalWidget(widgets.Widget):
@@ -31,7 +32,7 @@ class OcorrenciaResource(resources.ModelResource):
 
     class Meta:
         model = Ocorrencia
-        import_id_fields = ('numero_bo',)
+        import_id_fields = ('numero_bo', 'nome')
         skip_unchanged = True
         exclude = ('id',)
 
@@ -70,6 +71,9 @@ class FurtoEquipamentoResource(resources.ModelResource):
     cidade = Field(attribute='cidade', column_name='Cidade', widget=TitleCaseWidget())
     uf = Field(attribute='uf', column_name='UF')
     tipo_de_equipamento = Field(attribute='tipo_de_equipamento', column_name='Tipo de cabo', widget=TitleCaseWidget())
+
+    def after_save_instance(self, instance, row, **kwargs):
+        tasks.geocode_furto_equipamento.delay_on_commit(instance.pk)
 
     class Meta:
         model = FurtoEquipamento

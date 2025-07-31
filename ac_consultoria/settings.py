@@ -95,6 +95,9 @@ else:
     SECURE_CONTENT_TYPE_NOSNIFF = False
     SECURE_REFERRER_POLICY = None
 
+LOGIN_URL = 'main:login'
+LOGIN_REDIRECT_URL = '/'
+
 ROOT_URLCONF = 'ac_consultoria.urls'
 
 TEMPLATES = [
@@ -113,6 +116,9 @@ TEMPLATES = [
         },
     },
 ]
+
+BASE_TEMPLATE = 'main/_base.html'
+HTMX_BASE_TEMPLATE = 'main/_partial.html'
 
 WSGI_APPLICATION = 'ac_consultoria.wsgi.application'
 
@@ -180,8 +186,6 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'main:login'
-LOGIN_REDIRECT_URL = '/'
-
-BASE_TEMPLATE = 'main/_base.html'
-HTMX_BASE_TEMPLATE = 'main/_partial.html'
+# Celery and tasks config
+LOCATIONIQ_TOKEN = env('LOCATIONIQ_TOKEN')
+CELERY_BROKER_URL = env('REDIS_URL')
