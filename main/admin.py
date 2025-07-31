@@ -12,7 +12,7 @@ class OcorrenciaAdmin(ImportExportModelAdmin):
     search_fields = ['nome', 'placa', 'numero_documento']
 
 @admin.register(FurtoEquipamento)
-class ModelNameAdmin(ImportExportModelAdmin):
+class FurtoEquipamentoAdmin(ImportExportModelAdmin):
     resource_class = FurtoEquipamentoResource
-    list_filter = ['status', ('data_ocorrencia', DateRangeFilter), 'tipo_de_equipamento']
+    list_filter = ['status', ('data_ocorrencia', DateRangeFilter), 'tipo_de_equipamento', 'data_registro']
     ordering = ['-data_ocorrencia']
