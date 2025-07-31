@@ -56,8 +56,9 @@ class TitleCaseWidget(widgets.CharWidget):
     
     def clean(self, value, row=None, **kwargs):
         cleaned_value = super().clean(value, row, **kwargs)
-        if cleaned_value:
+        if cleaned_value is not None:
             return cleaned_value.strip().title()
+        return None
 
 
 class FurtoEquipamentoResource(resources.ModelResource):

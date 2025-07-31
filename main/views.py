@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Ocorrencia
 
@@ -16,9 +16,8 @@ def index(request):
 
 @login_required()
 def double_checker(request):
-    print(request.headers)
     if request.htmx.trigger_name:
-        field = request.headers.get('HX-Trigger-Name')
+        field = request.htmx.trigger_name
         search = {f'{field}__unaccent__icontains': request.GET.get(field)}
         context = {'ocorrencias': Ocorrencia.objects.filter(**search)[:6]}
         return render(request, 'main/double_checker.html#results', context)
