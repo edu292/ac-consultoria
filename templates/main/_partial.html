@@ -1,4 +1,8 @@
-<title hx-swap-oob="true">{% block title %}{% endblock %}</title>
+<head hx-head="merge">
+    <title>{% block title %}{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+</head>
 
 {% block content %}
 {% endblock %}

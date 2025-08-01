@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "heatmap.js": "^2.0.5",
+    "htmx-ext-head-support": "^2.0.4",
+    "htmx.org": "^2.0.6",
+    "iso8601-js-period": "^0.2.1",
+    "leaflet": "^1.9.4",
+    "leaflet-timedimension": "^1.1.1",
+    "leaflet.markercluster": "^1.5.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.8",
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "build:htmx": "esbuild src/htmx.js --bundle --outfile=../static/main/js/htmx.bundle.js --minify",
+    "build:mapLib": "esbuild src/map-lib.js --bundle --loader:.png=file --public-path=static/main/map-lib --outdir=../static/main/map --minify --global-name=mapLib --asset-names=[name][hash]",
+    "build:css": "esbuild ../static/main/css/style.css --minify --outfile=../static/main/css/style.min.css",
+    "build": "npm-run-all build:*",
+    "watch:htmx": "esbuild htmx.js --bundle --outfile=static/main/js/htmx.bundle.js --watch --global-name=htmx",
+    "watch:mapLib": "esbuild map-lib.js --bundle --loader:.png=file --public-path=static/main/map-lib --watch --global-name=mapLib",
+    "watch": "npm-run-all watch:*"
+  }
+}

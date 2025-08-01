@@ -1,26 +1,21 @@
 {% load static %}
-{% load django_htmx %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" hx-preserve="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" hx-preserve="true">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}">
-    {% htmx_script %}
+    <link rel="stylesheet" href="{% static 'main/css/style.min.css' %}" hx-preserve="true">
+    <script src="{% static 'main/js/htmx.bundle.js' %}" hx-preserve="true"></script>
     {% block head %}
     {% endblock %}
 </head>
-<body>
+<body hx-ext="head-support">
     <div class="body-wrapper">
-    <nav>
-        <a hx-get="{% url 'main:powerbi' %}"
-           hx-target="#content"
-           hx-push-url="true" href="#">Power BI</a>
+    <nav hx-boost="true" hx-target="#content">
+        <a href="{% url 'main:powerbi' %}">Power BI</a>
         <a href="{% url 'main:mapa_calor' %}">Mapa de Calor</a>
-        <a hx-get="{% url 'main:double_checker' %}"
-           hx-target="#content"
-           hx-push-url="true" href="#">Double Checker</a>
+        <a href="{% url 'main:double_checker' %}">Double Checker</a>
     </nav>
     <main id="content">
         {% block content %}

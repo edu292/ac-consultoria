@@ -14,13 +14,18 @@ import 'leaflet.markercluster';
 import 'iso8601-js-period';
 import 'leaflet-timedimension';
 import 'heatmap.js';
-import HeatmapOverlay from 'leaflet-heatmap';
+import HeatmapOverlay from "heatmap.js/plugins/leaflet-heatmap";
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet-timedimension/dist/leaflet.timedimension.control.css';
 
-import initMap from './map.js';
+import LazyLocationData  from 'components/LazyLocationData';
+import 'components/TimeDimensionCustom'
 
-initMap(L, HeatmapOverlay);
+export {
+    L,
+    HeatmapOverlay,
+    LazyLocationData
+}

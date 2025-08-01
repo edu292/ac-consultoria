@@ -1,11 +1,143 @@
-{% extends 'main/_base.html' %}
+{% extends base_template %}
 {% block title %}Mapa Calor{% endblock %}
 {% block head %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'main/mapa/app.css' %}">
-    <script src="{% static 'main/mapa/app.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'main/mapa/app.css' %}" hx-preserve="true">
+    <script src="{% static 'main/mapa/app.js' %}" hx-preserve="true"></script>
 {% endblock %}
 
 {% block content %}
     <div id="map" class="map"></div>
+    <script>
+        (function () {
+            const {L, HeatmapOverlay, LazyLocationData} = MapLib
+            const map = L.map('map', {
+                zoom: 7,
+                center: [-24.61, -51.32],
+            });
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            const geojsonUrl = 'https://raw.githubusercontent.com/giuliano-macedo/geodata-br-states/refs/heads/main/geojson/br_states/br_pr.json';
+
+            fetch(geojsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: {
+                            "color": "#007bff",
+                            "weight": 3,
+                            "opacity": 0.8
+                        },
+                    }).addTo(map);
+                })
+                .catch(error => console.error('Error loading the GeoJSON data:', error));
+
+            const heatmapLayer = new HeatmapOverlay({
+                radius: 15,
+                blur: 0.8,
+                maxOpacity: 0.6,
+                scaleRadius: false,
+                useLocalExtrema: false,
+                latField: 'lat',
+                lngField: 'lng',
+                valueField: 'count',
+                defaultWeight: 1,
+            }).addTo(map);
+
+            const cluster = L.markerClusterGroup().addTo(map);
+
+            function generateMonthLabels(latestMonth) {
+                let timeLabels = []
+                for (let monthNumber = 0; monthNumber <= latestMonth - 1; monthNumber++) {
+                    const date = new Date(2025, monthNumber, 1);
+                    const monthName = new Intl.DateTimeFormat('pt-BR', {month: 'long'}).format(date);
+                    const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+                    const timeLabel = '2025 - ' + capitalizedMonthName
+                    timeLabels.push(timeLabel)
+                }
+                timeLabels.push('Total')
+
+                return timeLabels
+            }
+
+            async function initializeTimeLabels(latestMonth = null) {
+                if (latestMonth === null) {
+                    const response = await fetch('api/furtos/latest-period');
+                    const data = await response.json();
+                    latestMonth = data.month
+                }
+
+                let timeLabels = generateMonthLabels(latestMonth)
+                const times = Array.from({length: timeLabels.length}, (_, i) => i + 1)
+
+                map.timeDimension = L.timeDimension({
+                    times: times, currentTime: new Date(1)
+                });
+
+                const timeDimension = new L.Control.TimeDimensionCustom(timeLabels, {
+                    autoPlay: false,
+                    backwardButton: true,
+                    displayDate: true,
+                    forwardButton: true,
+                    limitMinimumRange: 5,
+                    limitSliders: true,
+                    loopButton: false,
+                    maxSpeed: 10,
+                    minSpeed: 0.1,
+                    playButton: false,
+                    playReverseButton: false,
+                    position: "bottomleft",
+                    speedSlider: false,
+                    speedStep: 0.1,
+                    styleNS: "leaflet-control-timecontrol",
+                    timeSlider: true,
+                    timeSliderDragUpdate: false,
+                    timeSteps: 1
+                }).addTo(map);
+
+                return latestMonth
+            }
+
+            async function main() {
+                let currentIndex = 0
+
+                let latestMonth;
+                let markersByMonth = LazyLocationData.load();
+                if (markersByMonth === null) {
+                    console.log('not found')
+                    latestMonth = await initializeTimeLabels();
+                    markersByMonth = new LazyLocationData(latestMonth);
+                } else {
+                    console.log('found')
+                    latestMonth = markersByMonth.length
+                    await initializeTimeLabels(latestMonth)
+                }
+                const totalIndex = latestMonth + 1
+
+                map.timeDimension.on('timeload', async function (e) {
+                    console.log('change')
+                    let newIndex = e.time;
+                    if (newIndex === currentIndex) return;
+                    currentIndex = newIndex
+                    const dataIndex = (newIndex === totalIndex) ? 'all' : newIndex;
+                    const [markers, heatmapArray] = await Promise.all([
+                        markersByMonth.asMarkers(dataIndex),
+                        markersByMonth.asHeatmapArray(dataIndex)
+                    ]);
+                    cluster.clearLayers();
+                    cluster.addLayers(markers);
+                    heatmapLayer.setData(heatmapArray);
+                    markersByMonth.save();
+                });
+
+                map.timeDimension.fire('timeload', {time: 1});
+            }
+
+            main();
+        })();
+    </script>
 {% endblock %}
