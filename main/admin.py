@@ -46,10 +46,8 @@ class FurtoEquipamentoAdmin(ImportExportModelAdmin):
             locations = list(queryset.values(
                 'id', 'latitude', 'longitude', 'logradouro', 'numero', 'bairro', 'cidade'
             ))
-            
-        locations_json = json.dumps(locations, cls=DjangoJSONEncoder)
 
-        return render(request, 'admin/map_verification.html', {'locations_json': locations_json})
+        return render(request, 'admin/map_verification.html', {'locations': locations})
 
     def get_urls(self):
         urls = super().get_urls()

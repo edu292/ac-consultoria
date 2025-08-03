@@ -55,7 +55,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-const locationData = JSON.parse(document.getElementById('locations-data').text)
+const locationData = JSON.parse(document.getElementById('locations-data').textContent)
 
 const markers = locationData.forEach(data => {
     const marker = L.marker([data.latitude, data.longitude], {

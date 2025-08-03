@@ -16,8 +16,6 @@
 <body style="height: 100%; width: 100%">
     <div id="map" style="height: 100%; width: 100%"></div>
     {% csrf_token %}
-    <script id="locations-data" type="application/json">
-        {{ locations_json|safe }}
-    </script>
+    {{ locations|json_script:"locations-data" }}
 </body>
 </html>
