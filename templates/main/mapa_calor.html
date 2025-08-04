@@ -9,7 +9,7 @@
 {% block content %}
     <div id="map" class="map"></div>
     <script>
-        (function () {
+        function initializeMap () {
             const {L, HeatmapOverlay, LazyLocationData} = MapLib
             const map = L.map('map', {
                 zoom: 7,
@@ -26,13 +26,7 @@
             fetch(geojsonUrl)
                 .then(response => response.json())
                 .then(data => {
-                    L.geoJSON(data, {
-                        style: {
-                            "color": "#007bff",
-                            "weight": 3,
-                            "opacity": 0.8
-                        },
-                    }).addTo(map);
+                    L.geoJSON(data).addTo(map);
                 })
                 .catch(error => console.error('Error loading the GeoJSON data:', error));
 
@@ -108,18 +102,15 @@
                 let latestMonth;
                 let markersByMonth = LazyLocationData.load();
                 if (markersByMonth === null) {
-                    console.log('not found')
                     latestMonth = await initializeTimeLabels();
                     markersByMonth = new LazyLocationData(latestMonth);
                 } else {
-                    console.log('found')
                     latestMonth = markersByMonth.length
                     await initializeTimeLabels(latestMonth)
                 }
                 const totalIndex = latestMonth + 1
 
                 map.timeDimension.on('timeload', async function (e) {
-                    console.log('change')
                     let newIndex = e.time;
                     if (newIndex === currentIndex) return;
                     currentIndex = newIndex
@@ -138,6 +129,13 @@
             }
 
             main();
-        })();
+        }
+
+        if (window.MapLib !== undefined) {
+            initializeMap();
+        }
+        else {
+            window.addEventListener('map-lib-loaded', initializeMap, {once: true});
+        }
     </script>
 {% endblock %}

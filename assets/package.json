@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build:htmx": "esbuild src/htmx.js --bundle --outfile=../static/main/js/htmx.bundle.js --minify",
-    "build:mapLib": "esbuild src/map-lib.js --bundle --loader:.png=file --public-path=/static/main/map/ --outdir=../static/main/map --minify --global-name=MapLib --asset-names=[name][hash]",
+    "build:mapLib": "esbuild src/map-lib.js --bundle --loader:.png=file --public-path=/static/main/map/ --outdir=../static/main/map --minify --global-name=MapLib --asset-names=[name][hash] --footer:js=\"window.dispatchEvent(new CustomEvent('map-lib-loaded'))\"",
     "build:css": "esbuild ../static/main/css/style.css --minify --outfile=../static/main/css/style.min.css",
     "build": "npm-run-all build:*",
     "watch:htmx": "esbuild htmx.js --bundle --outfile=static/main/js/htmx.bundle.js --watch --global-name=htmx",

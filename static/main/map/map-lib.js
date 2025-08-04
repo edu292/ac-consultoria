@@ -8,3 +8,4 @@ leaflet/dist/leaflet-src.js:
    * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
    *)
 */
+window.dispatchEvent(new CustomEvent('map-lib-loaded'))
