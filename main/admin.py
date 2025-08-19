@@ -9,6 +9,7 @@ from import_export.admin import ImportExportModelAdmin
 
 from .models import Ocorrencia, FurtoEquipamento
 from .resources import OcorrenciaResource, FurtoEquipamentoResource
+from .tasks import geocode_furto_equipamento
 
 
 @admin.register(Ocorrencia)
@@ -25,7 +26,7 @@ class FurtoEquipamentoAdmin(ImportExportModelAdmin):
     list_filter = ['status', ('data_ocorrencia', DateRangeFilter), 'tipo_de_equipamento', 'data_registro']
     ordering = ['-data_ocorrencia']
     date_hierarchy = 'data_ocorrencia'
-    actions = ['verify_on_map', 'mark_as_verified']
+    actions = ['verify_on_map', 'mark_as_verified', 'geocode']
 
     @admin.action(description="Verificar localizações selecionadas no mapa")
     def verify_on_map(self, request, queryset):
@@ -34,6 +35,14 @@ class FurtoEquipamentoAdmin(ImportExportModelAdmin):
         url = reverse('admin:map_verification') + f'?ids={selected_ids}'
 
         return HttpResponseRedirect(url)
+
+    @admin.action(description='Geocode')
+    def geocode(self, request, queryset):
+        pks = queryset.values_list('pk', flat=True)
+
+        for pk in pks:
+            geocode_furto_equipamento.delay(pk)
+
 
     @admin.action(description='Marcar localizações selecionadas como verificadas')
     def mark_as_verified(self, request, queryset):

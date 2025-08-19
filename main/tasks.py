@@ -36,7 +36,7 @@ def geocode_address(address_dict):
     return None, None
 
 
-@shared_task(rate_limit='2/s')
+@shared_task(rate_limit='86/m')
 def geocode_furto_equipamento(instance_id):
     try:
         instance = FurtoEquipamento.objects.get(pk=instance_id)
