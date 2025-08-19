@@ -1,12 +1,11 @@
-from django.contrib import admin
-from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import path, reverse
+from django.utils.translation import ngettext
 
 from rangefilter.filters import DateRangeFilter
 from import_export.admin import ImportExportModelAdmin
-import json
 
 from .models import Ocorrencia, FurtoEquipamento
 from .resources import OcorrenciaResource, FurtoEquipamentoResource
@@ -26,7 +25,7 @@ class FurtoEquipamentoAdmin(ImportExportModelAdmin):
     list_filter = ['status', ('data_ocorrencia', DateRangeFilter), 'tipo_de_equipamento', 'data_registro']
     ordering = ['-data_ocorrencia']
     date_hierarchy = 'data_ocorrencia'
-    actions = ['verify_on_map']
+    actions = ['verify_on_map', 'mark_as_verified']
 
     @admin.action(description="Verificar localizações selecionadas no mapa")
     def verify_on_map(self, request, queryset):
@@ -35,6 +34,20 @@ class FurtoEquipamentoAdmin(ImportExportModelAdmin):
         url = reverse('admin:map_verification') + f'?ids={selected_ids}'
 
         return HttpResponseRedirect(url)
+
+    @admin.action(description='Marcar localizações selecionadas como verificadas')
+    def mark_as_verified(self, request, queryset):
+        rows_updated = queryset.update(status=FurtoEquipamento.Status.VERIFICADO)
+
+        self.message_user(
+            request,
+            ngettext(
+                '%d localização foi marcada como verificada',
+                '%d localizações foram marcadas como verificadas',
+                rows_updated
+            ),
+            messages.SUCCESS
+        )
 
     def map_verification(self, request):
         selected_ids_str = request.GET.get('ids')
