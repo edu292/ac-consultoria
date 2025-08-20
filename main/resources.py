@@ -63,7 +63,7 @@ class TitleCaseWidget(widgets.CharWidget):
 
 
 class FurtoEquipamentoResource(resources.ModelResource):
-    data_ocorrencia = Field(attribute='data_ocorrencia', column_name='Data da Ocorrência',
+    data_ocorrencia = Field(attribute='data_ocorrencia', column_name='Data',
                             widget=widgets.DateWidget(format='%d/%m/%Y',coerce_to_string=False))
     logradouro = Field(attribute='logradouro', column_name='Rua, AV, Logradouro', widget=TitleCaseWidget())
     numero = Field(attribute='numero', column_name='Nº', widget=NumeroWidget())
