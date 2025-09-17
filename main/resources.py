@@ -14,7 +14,7 @@ class EstruturaCriminalWidget(widgets.Widget):
             return None
 
         for db_value, display_value in self.choices:
-            if db_value or display_value.upper() in value.upper():
+            if db_value in value.upper() or display_value.upper() in value.upper():
                 return db_value
 
         raise ValueError(f'A estrutura criminal: {value} não está entre as opções válidas: {self.choices}')

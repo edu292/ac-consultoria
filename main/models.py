@@ -9,7 +9,7 @@ class Ocorrencia(models.Model):
 
     nome = models.CharField(max_length=100)
     numero_documento =  models.CharField(max_length=100, null=True, blank=True)
-    numero_bo = models.CharField(max_length=100, null=True)
+    numero_bo = models.CharField(max_length=100, null=True, blank=True)
     cidade = models.CharField(max_length=100)
     placa = models.CharField(max_length=100, null=True, blank=True)
     delito = models.CharField(max_length=100)
