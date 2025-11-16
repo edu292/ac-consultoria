@@ -17,12 +17,16 @@ def furto_equipamento_list(request):
 
     month = request.query_params.get('month')
     year = request.query_params.get('year')
+    city = request.query_params.get('city')
 
     if month:
         queryset = queryset.filter(data_ocorrencia__month=month)
 
     if year:
         queryset = queryset.filter(data_ocorrencia__year=year)
+
+    if city:
+        queryset = queryset.filter(cidade__iexact=city)
 
     serializer = FurtoEquipamentoSerializer(queryset, many=True)
 

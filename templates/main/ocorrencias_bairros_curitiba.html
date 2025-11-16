@@ -1,0 +1,135 @@
+{% extends base_template %}
+{% block title %}Ocorrências por Bairro{% endblock %}
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/map/map-lib.css' %}" hx-preserve="true">
+    <script src="{% static 'main/map/map-lib.js' %}" hx-preserve="true"></script>
+    <style>
+        .neighborhood-label-content {
+            font-family: Arial, sans-serif;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+
+            position: absolute;
+            transform: translate(-50%, -50%);
+
+            pointer-events: none;
+        }
+        .zoom-less-than-13 .neighborhood-name {
+          display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="map" class="map"></div>
+    <script>
+        async function initializeMap () {
+            function joinFurtoCountToGeoJSON(furtoData, geojsonData) {
+                const furtoCounts = {};
+                for (const furto of furtoData) {
+                    const neighborhoodName = furto.bairro;
+
+                    furtoCounts[neighborhoodName] = (furtoCounts[neighborhoodName] || 0) + 1;
+                }
+
+                geojsonData.features.forEach(feature => {
+                    const neighborhoodName = feature.properties.name_neighborhood;
+                    feature.properties.furto_count = furtoCounts[neighborhoodName] || 0;
+                });
+
+                return geojsonData;
+            }
+
+            function style(feature) {
+                const count = feature.properties.furto_count;
+                const fillColor = count > 94 ? '#800026' :
+                                  count > 65 ? '#BD0026' :
+                                  count > 42 ? '#E31A1C' :
+                                  count > 31 ? '#FC4E2A' :
+                                  count > 19 ? '#FD8D3C' :
+                                  count > 8  ? '#FEB24C' :
+                                               '#FFEDA0';
+                return {
+                    fillColor: fillColor,
+                    weight: 2,
+                    fillOpacity: 0.7,
+                    lineOpacity: 0.8,
+                    lineWeight: 1.5,
+                    color: '#333333'
+                };
+            }
+
+            function addDivIcons(feature, layer) {
+                const name = feature.properties.name_neighborhood;
+                const count = feature.properties.furto_count;
+
+                const center = layer.getBounds().getCenter();
+
+                const html = `
+                    <div class="neighborhood-label-content">
+                        <span class="neighborhood-name">${name}<br></span>${count}
+                    </div>
+                `;
+
+                const divIcon = L.divIcon({
+                    className: 'neighborhood-label-marker',
+                    html: html,
+                });
+
+                L.marker(center, {
+                    icon: divIcon
+                }).addTo(map);
+            }
+
+            function toggleIconClass() {
+                const currentZoom = map.getZoom();
+
+                if (currentZoom < 13) {
+                    mapContainer.classList.add('zoom-less-than-13');
+                } else {
+                    mapContainer.classList.remove('zoom-less-than-13');
+                }
+            }
+
+            const L = MapLib.L
+            const map = L.map('map', {
+                zoom: 11,
+                center: [-25.44762, -49.28045],
+                minZoom: 11
+            });
+            const mapContainer = map.getContainer();
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+	            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	            maxZoom: 19
+            }).addTo(map);
+
+            [furtoData, geojsonData] = await Promise.all([
+                fetch('{% url 'api:furtos'%}{% querystring city='curitiba' %}').then(response => response.json()),
+                fetch('{% static 'main/map/curitiba_bairros.json' %}').then(response => response.json())
+            ]);
+
+            const neighborhoodWithFurtoCount = joinFurtoCountToGeoJSON(furtoData, geojsonData);
+
+            L.geoJSON(
+                neighborhoodWithFurtoCount, {
+                    style: style,
+                    onEachFeature: addDivIcons
+                }
+            ).addTo(map);
+
+            map.on('zoomend', toggleIconClass);
+
+            map.whenReady(toggleIconClass);
+        }
+
+        if (window.MapLib !== undefined) {
+            initializeMap();
+        }
+        else {
+            window.addEventListener('map-lib-loaded', initializeMap, {once: true});
+        }
+    </script>
+{% endblock %}

@@ -9,5 +9,6 @@ path('', views.index, name='index'),
     path('powerbi', views.powerbi, name='powerbi'),
     path('mapacalor', views.mapacalor, name='mapa_calor'),
     path('login', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
-    path('double_checker', views.double_checker, name='double_checker')
+    path('double-checker', views.double_checker, name='double_checker'),
+    path('ocorrencias-bairros-curitiba', views.ocorrencias_bairros_curitiba, name='ocorrencias_bairros_curitiba')
 ]

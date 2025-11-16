@@ -1,5 +1,3 @@
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Ocorrencia
@@ -24,3 +22,7 @@ def double_checker(request):
         context = {'ocorrencias': Ocorrencia.objects.filter(**search)[:6]}
         return render(request, 'main/double_checker.html#results', context)
     return render(request, 'main/double_checker.html')
+
+@login_required()
+def ocorrencias_bairros_curitiba(request):
+    return render(request, 'main/ocorrencias_bairros_curitiba.html')
