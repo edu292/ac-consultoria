@@ -3,6 +3,7 @@
 {% block head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/map/map-lib.css' %}" hx-preserve="true">
+    <link rel="preload" href="{% static 'main/map/curitiba_bairros.json' %}" as="fetch" crossorigin>
     <script src="{% static 'main/map/map-lib.js' %}" hx-preserve="true"></script>
     <style>
         .neighborhood-label-content {

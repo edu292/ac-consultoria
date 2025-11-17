@@ -4,6 +4,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/map/map-lib.css' %}" hx-preserve="true">
     <script src="{% static 'main/map/map-lib.js' %}" hx-preserve="true"></script>
+    <link rel="preload" href="{% static 'main/map/parana.json' %}" as="fetch" crossorigin>
 {% endblock %}
 
 {% block content %}
@@ -15,21 +16,17 @@
                 zoom: 7,
                 center: [-24.61, -51.32],
             });
-            const mapContainer = map.getContainer();
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
-            const geojsonUrl = 'https://raw.githubusercontent.com/giuliano-macedo/geodata-br-states/refs/heads/main/geojson/br_states/br_pr.json';
-
-            fetch(geojsonUrl)
+            fetch({% static 'main/map/parana.json' %})
                 .then(response => response.json())
                 .then(data => {
                     L.geoJSON(data).addTo(map);
-                })
-                .catch(error => console.error('Error loading the GeoJSON data:', error));
+                });
 
             const heatmapLayer = new HeatmapOverlay({
                 radius: 15,
