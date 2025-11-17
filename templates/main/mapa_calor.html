@@ -22,7 +22,7 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
-            fetch({% static 'main/map/parana.json' %})
+            fetch('{% static 'main/map/parana.json' %}')
                 .then(response => response.json())
                 .then(data => {
                     L.geoJSON(data).addTo(map);
