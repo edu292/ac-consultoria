@@ -1,5 +1,16 @@
 <head hx-head="merge">
     <title>{% block title %}{% endblock %}</title>
+    <script>
+        document.body.addEventListener('htmx:beforeSwap', () => {
+            if (window.currentMap) {
+                window.currentMap.off()
+                window.currentMap.remove();
+                const container = window.currentMap.getContainer();
+                container.parentNode.removeChild(container);
+                window.currentMap = null;
+            }
+        });
+    </script>
     {% block head %}
     {% endblock %}
 </head>

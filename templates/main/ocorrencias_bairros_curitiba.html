@@ -100,6 +100,7 @@
                 center: [-25.44762, -49.28045],
                 minZoom: 11
             });
+            window.currentMap = map;
             const mapContainer = map.getContainer();
 
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
